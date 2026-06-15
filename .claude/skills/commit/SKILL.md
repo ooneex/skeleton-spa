@@ -11,6 +11,56 @@ Create separate commits for each logical change, following the project's commitl
 
 **Group by intent, not by location.** A single feature that spans multiple folders is one commit. Two unrelated fixes in the same folder are two commits.
 
+## SPA Structure
+
+This is a TanStack Router SPA. Only the `public/` and `src/` folders hold application code — use this map to choose the right scope and group changes by intent.
+
+```
+public/                       Static assets served as-is (favicon, logos)
+  favicon.svg
+  logo-full.svg
+
+src/
+  bootstrap/                  App entry, mounting, and generated wiring
+    index.html                HTML shell
+    app.tsx                   App bootstrap / mount
+    reportWebVitals.ts        Web-vitals reporting
+    routeTree.gen.ts          Generated route tree (tooling output, Biome-ignored)
+  routes/                     TanStack Router route modules
+    __root.tsx                Root route / layout
+    index.tsx                 Index route
+  features/                   Feature modules — one folder per feature
+    <feature>/                e.g. `user`, a self-contained vertical slice
+      assets/                 Feature-local static assets
+      components/             Feature UI components
+      hooks/                  Feature React hooks (data fetching / API)
+      layouts/                Feature layout components
+      services/               Business logic
+      store/                  Feature state management
+      styles/                 Feature-scoped styles
+      types/                  Feature TypeScript types
+      utils/                  Feature helpers
+  shared/                     Cross-feature shared code (mirrors a feature's layout)
+    assets/                   Shared static assets
+    components/               Shared UI components
+    hooks/                    Shared React hooks (data fetching / API)
+    layouts/                  Shared layout components
+    services/                 Shared business logic
+    store/                    Shared state management
+    styles/                   Shared / global styles
+    types/                    Shared TypeScript types
+    utils/                    Shared helpers
+```
+
+**Scope mapping:**
+- `public/` → `public`
+- `src/bootstrap/` → `bootstrap`
+- `src/routes/` → `routes`
+- `src/features/**` → `features`
+- `src/shared/**` → `ui` (shared components), or omit when no scope fits
+
+A feature is a vertical slice: a change touching several subfolders of one `features/<feature>` is **one** commit (scope `features`). Two unrelated features are two commits even though both live under `features/`.
+
 ## Never Add Co-Authors
 
 Do **not** add a `Co-Authored-By` trailer (or any Claude/AI attribution) to commit messages. Commits are authored solely by the repository's git user. Use plain `git commit -m "..."` with the message only.
