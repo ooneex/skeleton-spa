@@ -4,7 +4,7 @@
   "scripts": {
     "test": "bun test tests",
     "lint": "tsgo --noEmit && bunx biome lint",
-    "dev": "bun --bun run vite --port 3000",
+    "dev": "bun --bun run vite --port 6060",
     "build": "bun --bun run vite build",
     "preview": "bun --bun run vite preview"
   },
