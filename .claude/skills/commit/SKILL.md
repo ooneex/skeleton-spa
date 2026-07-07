@@ -1,11 +1,11 @@
 ---
 name: commit
-description: Commit staged changes grouped by logical change. Use when committing multiple independent changes separately, when you need to create atomic commits per logical unit of work, or after making a mix of changes across the codebase. Analyzes git status and creates properly formatted commits following commitlint conventions.
+description: Commit staged changes grouped by logical change. Use when committing multiple independent changes separately, when you need to create atomic commits per logical unit of work, or after making a mix of changes across the codebase. Analyzes git status, creates properly formatted commits following the project's conventional-commit conventions, and pushes them when done.
 ---
 
 # Commit Per Change
 
-Create separate commits for each logical change, following the project's commitlint conventions (`@commitlint/config-conventional`). A "logical change" is a coherent unit of work — one feature, one fix, one refactor — regardless of how many files or directories it touches.
+Create separate commits for each logical change, following the Conventional Commits format used throughout this project's git history. There is no commitlint hook enforcing it — consistency is kept by convention, so apply the rules below exactly. A "logical change" is a coherent unit of work — one feature, one fix, one refactor — regardless of how many files or directories it touches.
 
 ## Core Principle
 
@@ -13,7 +13,7 @@ Create separate commits for each logical change, following the project's commitl
 
 ## SPA Structure
 
-This is a TanStack Router SPA. Only the `public/` and `src/` folders hold application code — use this map to choose the right scope and group changes by intent.
+This is a React 19 + TanStack Router SPA built with Vite on Bun, styled with Tailwind CSS v4. Only the `public/` and `src/` folders hold application code — use this map to choose the right scope and group changes by intent.
 
 ```
 public/                       Static assets served as-is (favicon, logos)
@@ -84,13 +84,18 @@ Do **not** add a `Co-Authored-By` trailer (or any Claude/AI attribution) to comm
    - Commit with proper format: `type(scope): subject`
    - Repeat until the working tree is clean (or only unrelated work remains)
 
+4. **Push**
+   - Once all commits are created, push them with `git push`
+   - Push **once at the end**, not after each individual commit
+   - If the push is rejected because the remote is ahead, run `git pull --rebase` and push again — never force-push
+
 ## Commit Message Format
 
 ```
 type(scope): subject line
 ```
 
-The `(scope)` is optional under `config-conventional`; include it when it adds clarity.
+The `(scope)` is optional; include it when it adds clarity.
 
 ### Valid Types
 - `feat`: New feature
@@ -106,7 +111,7 @@ The `(scope)` is optional under `config-conventional`; include it when it adds c
 - `revert`: Revert a previous commit
 
 ### Suggested Scopes
-There is no custom scope enum, so scopes are free-form (must be lower-case). Prefer scopes that map to the project's structure:
+Scopes are free-form (always lower-case). Prefer scopes that map to the project's structure — these are the ones already used in the git history:
 - `features`: Feature modules (`src/features`)
 - `routes`: TanStack Router routes (`src/routes`)
 - `bootstrap`: App bootstrap and entry (`src/bootstrap`)
@@ -118,7 +123,7 @@ There is no custom scope enum, so scopes are free-form (must be lower-case). Pre
 When a logical change spans multiple scopes, pick the scope that best represents the **primary** intent of the change. If truly split, prefer separate commits. Omit the scope entirely when none fits cleanly.
 
 ### Subject Rules
-- **Lower-case** the subject — `config-conventional` rejects sentence-case, start-case, pascal-case, and upper-case subjects
+- **Lower-case** the subject — no sentence-case, start-case, pascal-case, or upper-case subjects
 - Use imperative mood ("add feature" not "added feature")
 - No period at the end
 - Type and scope must be lower-case
@@ -179,6 +184,9 @@ git commit -m "build(config): change dev server port to 3000"
 # Dependency bump
 git add bun.lock
 git commit -m "chore(deps): update dependencies"
+
+# Push everything once all commits are created
+git push
 ```
 
 ### Example 2: Single Logical Change Spanning Folders
@@ -243,7 +251,7 @@ Write clear, descriptive, lower-case subjects:
 Before each commit, verify:
 1. The staged files belong to **one** logical change
 2. No unrelated edits are sneaking in (run `git diff --staged` to confirm)
-3. No debug code, `console.log`, or temporary scaffolding left behind (Biome flags `noConsole` as an error)
+3. No debug code, `console.log`, or temporary scaffolding left behind (Biome flags `noConsole` as an error — `bun run lint` runs `tsgo` + Biome)
 4. Subject line is lower-case, imperative, and matches the format exactly
 5. No `Co-Authored-By` or AI-attribution trailer is added
 
