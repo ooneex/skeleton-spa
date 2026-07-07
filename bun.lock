@@ -12,6 +12,7 @@
         "@tanstack/react-router-devtools": "^1.167.0",
         "@tanstack/router-plugin": "^1.168.18",
         "react": "^19.2.7",
+        "react-call": "^2.0.2",
         "react-dom": "^19.2.7",
         "tailwindcss": "^4.3.0",
       },
@@ -447,6 +448,8 @@
     "prettier": ["prettier@3.8.4", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q=="],
 
     "react": ["react@19.2.7", "", {}, "sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ=="],
+
+    "react-call": ["react-call@2.0.2", "", { "peerDependencies": { "react": ">=18", "react-dom": ">=18", "vite": ">=8" }, "optionalPeers": ["react-dom", "vite"] }, "sha512-egXLdccpWeRq+6XmR+jm/4Lg0w5zLAe/2jMzYdWtQkfe5qgfUJReZWdLWyPIfzZt215FBF6wFOZPaqne6MhNNw=="],
 
     "react-dom": ["react-dom@19.2.7", "", { "dependencies": { "scheduler": "^0.27.0" }, "peerDependencies": { "react": "^19.2.7" } }, "sha512-t0BRVXvbiE/o20Hfw669rLbMCDWtYZLvmJigy2f0MxsXF+71pxhR3xOkspmsO8h3ZlNzyibAmtCa3l4lYKk6gQ=="],
 
